@@ -85,6 +85,6 @@ class afonya_order_ip extends CModule
         // Открепим события
         UnRegisterModuleDependences('sale', 'OnSaleOrderSaved', $this->MODULE_ID, 'Afonay\\EventListener', 'onSavedOrder');
 
-        $APPLICATION->IncludeAdminFile("Деинсталляция модуля {$this->MODULE_ID}", $DOCUMENT_ROOT."/local/modules/{$this->MODULE_ID}/install/unstep.php");
+        $APPLICATION->IncludeAdminFile("Деинсталяция {$this->MODULE_ID}", $DOCUMENT_ROOT."/local/modules/{$this->MODULE_ID}/install/unstep.php");
     }
 }
