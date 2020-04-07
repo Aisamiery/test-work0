@@ -1,4 +1,4 @@
 <?php
 
 if (!check_bitrix_sessid()) return;
-echo CAdminMessage::ShowNote("Ìîäóëü Àôîíÿ Ripe Ip óñòàíîâëåí.");
+echo CAdminMessage::ShowNote("ÐœÐ¾Ð´ÑƒÐ»ÑŒ ÐÑ„Ð¾Ð½Ñ Ripe Ip ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½.");

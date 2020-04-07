@@ -26,26 +26,26 @@ class EventListener
             /** @var Order $order */
             $order = $event->getParameter('ENTITY');
 
-            // Ïðîâåðÿåì òîëüêî ïðè ñîçäàíèè çàêàçà, ïðè îáíîâëåíèè çàêàçà ìåíÿòü IP íåò ñìûñëà
+            // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¿Ñ€Ð¸ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ð¸ Ð·Ð°ÐºÐ°Ð·Ð°, Ð¿Ñ€Ð¸ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ð¸ Ð·Ð°ÐºÐ°Ð·Ð° Ð¼ÐµÐ½ÑÑ‚ÑŒ IP Ð½ÐµÑ‚ ÑÐ¼Ñ‹ÑÐ»Ð°
             if ($isNew && $order instanceof Order) {
-                // Èùåì òàêîé çàêàç
+                // Ð˜Ñ‰ÐµÐ¼ Ñ‚Ð°ÐºÐ¾Ð¹ Ð·Ð°ÐºÐ°Ð·
                 $orderRipeIp = OrderRipeIpTable::getList(['select' => ['*'], 'filter' => ['=ORDER_ID' => $order->getId()]])->fetchObject();
 
                 if ($orderRipeIp instanceof OrderRipeIp) {
-                    // Òàêàÿ çàïèñü ê çàêàçó óæå ñóùåñòâóåò
+                    // Ð¢Ð°ÐºÐ°Ñ Ð·Ð°Ð¿Ð¸ÑÑŒ Ðº Ð·Ð°ÐºÐ°Ð·Ñƒ ÑƒÐ¶Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚
                     return true;
                 }
 
-                // Ïîëó÷èòü ðåàëüíûé IP àäðåñ ïîëüçîâàòåëÿ @todo óïðîùåííàÿ âåðñèÿ äëÿ òåõ çàäàíèÿ
+                // ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ñ€ÐµÐ°Ð»ÑŒÐ½Ñ‹Ð¹ IP Ð°Ð´Ñ€ÐµÑ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ @todo ÑƒÐ¿Ñ€Ð¾Ñ‰ÐµÐ½Ð½Ð°Ñ Ð²ÐµÑ€ÑÐ¸Ñ Ð´Ð»Ñ Ñ‚ÐµÑ… Ð·Ð°Ð´Ð°Ð½Ð¸Ñ
                 $ip = $_SERVER["REMOTE_ADDR"];
 
-                // Âîçìîæíî äàííûå îá IP óæå åñòü, äåðãàòü ripe íåò ñìûñëà
+                // Ð’Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ð± IP ÑƒÐ¶Ðµ ÐµÑÑ‚ÑŒ, Ð´ÐµÑ€Ð³Ð°Ñ‚ÑŒ ripe Ð½ÐµÑ‚ ÑÐ¼Ñ‹ÑÐ»Ð°
                 $orderRipeIp = OrderRipeIpTable::getList(['select' => ['*'], 'filter' => ['=IP_ADDRESS' => $ip]])->fetchObject();
 
                 if ($orderRipeIp instanceof OrderRipeIp) {
                     $dataIpAddress = $orderRipeIp->getPayloadData();
                 } else {
-                    // Çàïðîñèì äàííûå îò RIPE
+                    // Ð—Ð°Ð¿Ñ€Ð¾ÑÐ¸Ð¼ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ñ‚ RIPE
                     $response = (new Request())->getAddressInfo($ip);
                     $dataIpAddress = $response->getObject();
                 }

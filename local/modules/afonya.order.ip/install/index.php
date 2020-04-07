@@ -25,8 +25,8 @@ class afonya_order_ip extends CModule
             $this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
         }
 
-        $this->MODULE_NAME = "Àôîíÿ RIPE IP";
-        $this->MODULE_DESCRIPTION = "Çàïèñûâàåò èíôîðìàöèþ ïî IP àäðåñó ïîëüçîâàòåëÿ ñîâåðøèâøåãî çàêàç";
+        $this->MODULE_NAME = "ÐÑ„Ð¾Ð½Ñ RIPE IP";
+        $this->MODULE_DESCRIPTION = "Ð—Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÑ‚ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¿Ð¾ IP Ð°Ð´Ñ€ÐµÑÑƒ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ ÑÐ¾Ð²ÐµÑ€ÑˆÐ¸Ð²ÑˆÐµÐ³Ð¾ Ð·Ð°ÐºÐ°Ð·";
     }
 
     public function DoInstall(): void
@@ -40,7 +40,7 @@ class afonya_order_ip extends CModule
         try {
             $connection->startTransaction();
 
-            // Òàáëèöà äëÿ õðàíåíèÿ äàííûõ ïî IP
+            // Ð¢Ð°Ð±Ð»Ð¸Ñ†Ð° Ð´Ð»Ñ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¿Ð¾ IP
             $fields = [
                 'ID' => new \Bitrix\Main\ORM\Fields\IntegerField('ID'),
                 'ORDER_ID' => new \Bitrix\Main\ORM\Fields\IntegerField('ORDER_ID', ['required' => true]),
@@ -50,7 +50,7 @@ class afonya_order_ip extends CModule
 
             $connection->createTable(self::TABLE_NAME_IP, $fields, ['ID'], ['ID']);
 
-            // Äîáàâèì èíäåêñû - òàáëèöà áóäåò áîëüøîé
+            // Ð”Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð¸Ð½Ð´ÐµÐºÑÑ‹ - Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ð° Ð±ÑƒÐ´ÐµÑ‚ Ð±Ð¾Ð»ÑŒÑˆÐ¾Ð¹
             $connection->queryExecute(sprintf('ALTER TABLE `%s` MODIFY `ORDER_ID` INT UNSIGNED NOT NULL UNIQUE', self::TABLE_NAME_IP));
             $connection->queryExecute(sprintf('ALTER TABLE `%s` MODIFY `IP_ADDRESS` VARCHAR(15) NOT NULL', self::TABLE_NAME_IP));
 
@@ -66,11 +66,11 @@ class afonya_order_ip extends CModule
             \Bitrix\Main\Application::getInstance()->getExceptionHandler()->writeToLog($exception);
         }
 
-        // Ðåãèñòðàöèÿ ñîáûòèÿ
+        // Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸Ñ
         $eventManager = \Bitrix\Main\EventManager::getInstance();
         $eventManager->registerEventHandler('sale', 'OnSaleOrderSaved', $this->MODULE_ID, 'Afonay\\EventListener', 'onSavedOrder');
 
-        $APPLICATION->IncludeAdminFile("Óñòàíîâêà ìîäóëÿ {$this->MODULE_ID}", $DOCUMENT_ROOT."/local/modules/{$this->MODULE_ID}/install/step.php");
+        $APPLICATION->IncludeAdminFile("Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¼Ð¾Ð´ÑƒÐ»Ñ {$this->MODULE_ID}", $DOCUMENT_ROOT."/local/modules/{$this->MODULE_ID}/install/step.php");
     }
 
     public function DoUninstall(): void
@@ -82,9 +82,9 @@ class afonya_order_ip extends CModule
         $connection = \Bitrix\Main\Application::getConnection();
         $connection->dropTable(self::TABLE_NAME_IP);
 
-        // Îòêðåïèì ñîáûòèÿ
+        // ÐžÑ‚ÐºÑ€ÐµÐ¿Ð¸Ð¼ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸Ñ
         UnRegisterModuleDependences('sale', 'OnSaleOrderSaved', $this->MODULE_ID, 'Afonay\\EventListener', 'onSavedOrder');
 
-        $APPLICATION->IncludeAdminFile("Äåèíñòàëÿöèÿ {$this->MODULE_ID}", $DOCUMENT_ROOT."/local/modules/{$this->MODULE_ID}/install/unstep.php");
+        $APPLICATION->IncludeAdminFile("Ð”ÐµÐ¸Ð½ÑÑ‚Ð°Ð»ÑÑ†Ð¸Ñ {$this->MODULE_ID}", $DOCUMENT_ROOT."/local/modules/{$this->MODULE_ID}/install/unstep.php");
     }
 }
